@@ -4,12 +4,6 @@ target/
 !**/src/main/**
 !**/src/test/**
 
-
-.mvn/
-mvnw
-mvnw.cmd
-.DS_Store
-
 ### STS ###
 .apt_generated
 .classpath
