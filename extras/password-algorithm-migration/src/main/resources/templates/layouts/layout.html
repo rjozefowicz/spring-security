@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Layout</title>
+    <!--versions resolved with webjars-locator -->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/webjars/jquery/jquery.js}"></script>
+    <script th:src="@{/webjars/popper.js/dist/umd/popper.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="navbar navbar-light bg-light">
+        <a class="navbar-brand" th:href="@{/}">Home</a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                Users
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:href="@{/}"> List Users </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" th:href="@{/(form)}"> Create User</a>
+            </div>
+        </div>
+        <a class="float-right" th:href="@{/logout}"> Logout</a>
+    </div>
+    <hr/>
+    <div layout:fragment="content">Fake content</div>
+</div>
+</body>
+</html>

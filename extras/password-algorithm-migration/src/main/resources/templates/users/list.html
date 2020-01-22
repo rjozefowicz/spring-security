@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorate="~{layouts/layout}">
+<head>
+<title>List users</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>EMAIL</td>
+					<td>CREATED</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${users.empty}">
+					<td colspan="3">No users</td>
+				</tr>
+				<tr th:each="user : ${users}">
+					<td><a href="view.html" th:href="@{'/' + ${user.id}}" th:text="${user.id}"> ID </a></td>
+					<td th:text="${user.email}"> EMAIL </a></td>
+					<td th:text="${#temporals.formatISO(user.created)}">Some Date</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

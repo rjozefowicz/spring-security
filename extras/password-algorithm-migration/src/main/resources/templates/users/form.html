@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorate="~{layouts/layout}">
+<head>
+	<title>Create a user</title>
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+	<form id="userForm" th:action="@{/(form)}" th:object="${user}" action="#" method="post">
+		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+			<p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+		</div>
+		<input type="hidden" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'" />
+		<label for="email">Email</label>
+		<input type="email" th:field="*{email}" th:readonly="${existingUser}" th:class="${#fields.hasErrors('email')} ? 'field-error'" />
+		<label for="password">Password</label>
+		<input type="password" th:field="*{password}" th:class="${#fields.hasErrors('password')} ? 'field-error'" />
+		<label for="passwordConfirmation">Password Confirmation</label>
+		<input type="password" th:field="*{passwordConfirmation}" th:class="${#fields.hasErrors('passwordConfirmation')} ? 'field-error'" />
+		<hr />
+		<div class="form-actions">
+			<input type="submit" value="Save" />
+		</div>
+	</form>
+</div>
+</body>
+</html>

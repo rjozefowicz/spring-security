@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Session example</title>
 </head>
+
 <body>
     <h3>Session management</h3>
+    <h4>Active sessions <button onclick="invalidateAll()">Invalidate all</button></h4>
+    <table>
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Sessions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td>
+                <div th:each="sessionId: ${user.sessions}">
+                    <span th:text="${sessionId}"/>
+                    <button th:data-session-id="${sessionId}">Invalidate</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
+
+<script>
+    document.querySelectorAll("button[data-session-id]").forEach(btn =>
+    {
+        btn.addEventListener("click", (evt => {
+            invalidate(evt.target.dataset.sessionId);
+        }))
+    })
+    const invalidate = async (sessionId) => {
+        const result = await fetch(`./invalidate/${sessionId}`, {
+            method: "POST"
+            }
+        );
+        if (result.ok) {
+            alert("Session invalidated");
+        } else {
+            alert("Could not invalidate session");
+        }
+    }
+    const invalidateAll = async () => {
+        const result = await fetch(`./invalidate`, {
+                method: "POST"
+            }
+        );
+        if (result.ok) {
+            alert("Sessions invalidated");
+        } else {
+            alert("Could not invalidate sessions");
+        }
+    }
+</script>

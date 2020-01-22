@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorate="~{layouts/layout}">
+<head>
+<title>View | modify | delete a user</title>
+
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">defaultSuccess</div>
+		<dl>
+			<dt>ID</dt>
+			<dd id="id" th:text="${user.id}">userId</dd>
+			<dt>email</dt>
+			<dd id="email" th:text="${user.email}">Email</dd>
+			<dt>Date</dt>
+			<dd id="created" th:text="${#temporals.formatISO(user.created)}">
+				userCreated</dd>
+		</dl>
+		<hr/>
+		<div class="pull-left">
+			<a href="users" th:href="@{'/delete/' + ${user.id}}">delete </a>
+		</div>
+	</div>
+</body>
+</html>

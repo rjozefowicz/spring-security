@@ -41,15 +41,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement(sessionManagement -> {
                     sessionManagement
+                            .invalidSessionUrl("/session/invalid")
+                            .sessionFixation(sessionFixation -> {
+                                sessionFixation.newSession();
+                            })
                             .maximumSessions(2)
-                            .sessionRegistry(sessionRegistry());
+                            .sessionRegistry(sessionRegistry())
+                            .expiredUrl("/session/expired");
                 })
                 .csrf(csrf -> {
                     csrf.disable();
                 })
                 .authorizeRequests(authorizeRequests -> {
                     authorizeRequests
-                            .antMatchers("/login").permitAll()
+                            .antMatchers("/login", "/session/expired", "/session/invalid").permitAll()
                             .anyRequest().authenticated();
                 })
                 .formLogin();

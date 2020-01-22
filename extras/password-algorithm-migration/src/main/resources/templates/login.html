@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Layout</title>
+	<!--versions resolved with webjars-locator -->
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="container">
+	<h1>Login page</h1>
+	<div th:if="${message}" th:text="${message}" class="alert alert-primary">Message</div>
+	<div th:if="${errorMessage}" th:text="${errorMessage}" class="alert alert-danger">Message</div>
+	<div th:if="${param.logout}" class="alert alert-primary">You have been logged out.</div>
+	<div th:if="${param.error}" class="alert alert-danger">Invalid credentials !</div>
+
+	<form th:action="@{/login}" method="post" class="form-horizontal">
+		<div class="form-group">
+			<label class="control-label col-xs-2" for="username"> Email: </label>
+
+			<div class="col-xs-10">
+				<input id="username" type="text" name="username"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-2" for="password"> Password: </label>
+
+			<div class="col-xs-10">
+				<input id="password" type="password" name="password"/>
+			</div>
+		</div>
+		<div class="form-actions col-xs-offset-2 col-xs-10">
+			<input type="submit" class="btn btn-primary" value="Sign In"/>
+			<a class="btn btn-outline-primary" th:href="@{/signup}">Sign Up</a>
+		</div>
+	</form>
+</div>
+</body>
+</html>
