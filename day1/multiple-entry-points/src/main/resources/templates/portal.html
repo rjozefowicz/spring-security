@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div>Welcome <span th:text="${username}"/></div>
+<br/>
+<form th:action="@{/portal/doLogout}" method="post">
+    <input th:type="submit" class="btn btn-primary" th:value="Logout"/>
+</form>
+<br/><br/>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">ISBN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${books.empty}">
+        <td colspan="3">No Books Available</td>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td><span th:text="${book.title}">Title</span></td>
+        <td><span th:text="${book.author}">Author</span></td>
+        <td><span th:text="${book.isbn}">ISBN</span></td>
+    </tr>
+    </tbody>
+</table>
+<br/>
+<br/>
+<br/>
+<h3>Add new book</h3>
+<form action="#" th:action="@{/portal/newBook}" method="post" style="width: 200px" th:object="${book}">
+    <div class="form-group">
+        <label for="title">Title</label>:
+        <input class="form-control" type="text" id="title" th:field="*{title}" required/> <br/>
+    </div>
+    <div class="form-group">
+        <label for="author">Author</label>:
+        <input class="form-control" type="text" id="author" th:field="*{author}" required/> <br/>
+    </div>
+    <div class="form-group">
+        <label for="isbn">ISBN</label>:
+        <input class="form-control" type="text" id="isbn" th:field="*{isbn}" required/> <br/>
+    </div>
+    <input type="submit" value="Create" class="btn btn-primary"/>
+</form>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>
