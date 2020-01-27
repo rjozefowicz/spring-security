@@ -12,8 +12,6 @@ public class UserRepository {
     private List<User> users = new CopyOnWriteArrayList<>();
 
     public UserRepository() {
-        users.add(new User("jan@example", "password", List.of("ROLE_ADMIN")));
-        users.add(new User("stefan@example", "password", List.of("ROLE_USER")));
     }
 
     public Optional<User> findByUsername(String username) {

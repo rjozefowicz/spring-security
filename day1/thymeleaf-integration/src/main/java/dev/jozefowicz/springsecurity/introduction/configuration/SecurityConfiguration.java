@@ -45,8 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     authorizeRequests
                             .antMatchers("/login", "/invalidLogin")
                             .permitAll()
-                            .antMatchers("/newBook")
-                            .hasRole("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })

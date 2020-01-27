@@ -11,10 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.sql.DataSource;
 import java.util.Optional;
 
 @EnableWebSecurity
@@ -65,24 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 })
                 .headers(headers -> {
                     headers.frameOptions().disable();
-                })
-                .rememberMe(rememberMe -> {
-                    rememberMe
-                            .key("some-key")
-                            .rememberMeCookieName("rememberMe")
-                            .rememberMeParameter("rememberMe")
-                            .tokenRepository(tokenRepository());
                 });
-    }
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Bean
-    public PersistentTokenRepository tokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
-        jdbcTokenRepositoryImpl.setDataSource(dataSource);
-        return jdbcTokenRepositoryImpl;
     }
 
     @Bean

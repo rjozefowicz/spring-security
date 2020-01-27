@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Welcome</title>
     <!-- Latest compiled and minified CSS -->
@@ -9,16 +9,6 @@
 <body>
 <div>Welcome <span th:text="${username}"/></div>
 <br/>
-
-<p sec:authorize="hasRole('USER')">Text visible to USER role</p>
-<p sec:authorize="hasRole('ADMIN')">Text visible to ADMIN role</p>
-
-<p>Authenticated username: <span sec:authentication="name"></span></p>
-<p>Authenticated user roles: <span sec:authentication="principal.authorities"></span></p>
-
-<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-    This will only be displayed if authenticated user has role ROLE_ADMIN.
-</div>
 
 <form th:action="@{/doLogout}" method="post">
     <input th:type="submit" class="btn btn-primary" th:value="Logout"/>
@@ -47,7 +37,7 @@
 <br/>
 <br/>
 <h3>Add new book</h3>
-<form action="#" th:action="@{/newBook}" method="post" style="width: 200px" th:object="${book}" sec:authorize-url="/newBook">
+<form action="#" th:action="@{/newBook}" method="post" style="width: 200px" th:object="${book}">
     <div class="form-group">
         <label for="title">Title</label>:
         <input class="form-control" type="text" id="title" th:field="*{title}" required/> <br/>

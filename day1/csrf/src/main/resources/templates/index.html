@@ -52,27 +52,6 @@
     <input type="submit" value="Create" class="btn btn-primary"/>
 </form>
 
-<h3>Plain-HTML:</h3>
-
-<span th:text="${_csrf.token}"></span>
-
-<form action="/newBook" method="post" style="width: 200px">
-    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-    <div class="form-group">
-        <label for="title1">Title</label>:
-        <input class="form-control" type="text" id="title1" name="title" required/> <br/>
-    </div>
-    <div class="form-group">
-        <label for="author1">Author</label>:
-        <input class="form-control" type="text" id="author1" name="author" required/> <br/>
-    </div>
-    <div class="form-group">
-        <label for="isbn1">ISBN</label>:
-        <input class="form-control" type="text" id="isbn1" name="isbn" required/> <br/>
-    </div>
-    <input type="submit" value="Create" class="btn btn-primary"/>
-</form>
-
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
