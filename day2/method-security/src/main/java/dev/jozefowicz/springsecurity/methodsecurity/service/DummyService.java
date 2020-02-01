@@ -1,34 +1,30 @@
 package dev.jozefowicz.springsecurity.methodsecurity.service;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.security.RolesAllowed;
 
 @Service
 public class DummyService {
 
-    @Secured("ROLE_ADMIN")
+    @Secured("TODO")
     public void admin() {
         System.out.println("only for admin");
     }
 
-    @IsAdmin
+    @Secured("TODO")
     public void admin2() {
         System.out.println("IsAdmin - only for admin");
     }
 
-    @RolesAllowed("ROLE_EDITOR")
+    @Secured("TODO")
     public void editor() {
         System.out.println("only for editor");
     }
-
-    @PreAuthorize("hasRole('READER')")
+    @Secured("TODO")
     public void reader() {
         System.out.println("reader");
     }
-
+    @Secured("TODO")
     public void anyUser() {
         System.out.println("any user");
     }

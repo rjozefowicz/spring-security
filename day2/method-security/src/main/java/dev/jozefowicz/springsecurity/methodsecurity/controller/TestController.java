@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class TestController {
 
-    @Secured("ROLE_ADMIN")
     @PostMapping
+    @Secured("TODO")
     public void admin() {
         System.out.println("admin endpoint");
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping
+    @Secured("TODO")
     public String user() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }

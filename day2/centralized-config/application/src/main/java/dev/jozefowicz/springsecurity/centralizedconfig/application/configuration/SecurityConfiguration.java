@@ -9,6 +9,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * TODO #2:
+ * 1. Tworzymy klasę rozszerzającą GlobalMethodSecurityConfiguration
+ * 2. Dodajemy adnotację @EnableGlobalMethodSecurity
+ * 3. Nadpisujemy metodę GlobalMethodSecurityConfiguration.customMethodSecurityMetadataSource()
+ * 4. Skonfiguruj
+ *      - MeController.me() dla ról USER i ADMIN
+ *      - Module1Controller.module1() dla roli ADMIN
+ * 5. Wykorzystujemy HTTP BASIC
+ * 6. Przydatny link https://docs.spring.io/spring-security/site/docs/5.1.2.RELEASE/reference/htmlsingle/#explicit-methodsecurityinterceptor-configuration
+ */
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

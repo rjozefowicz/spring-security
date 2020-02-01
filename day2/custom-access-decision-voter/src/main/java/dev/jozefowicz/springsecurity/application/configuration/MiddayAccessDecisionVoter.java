@@ -3,9 +3,7 @@ package dev.jozefowicz.springsecurity.application.configuration;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.time.LocalTime;
 import java.util.Collection;
 
 public class MiddayAccessDecisionVoter implements AccessDecisionVoter {
@@ -17,15 +15,14 @@ public class MiddayAccessDecisionVoter implements AccessDecisionVoter {
 
     @Override
     public int vote(Authentication authentication, Object o, Collection collection) {
-        return authentication
-            .getAuthorities()
-            .stream()
-            .map(GrantedAuthority::getAuthority)
-            // TODO użytkownik ADMIN ma zawsze dostęp, użytkownik z rolą USER tylko do południa
-            .filter(authority -> "ROLE_ADMIN".equals(authority) || ("ROLE_USER".equals(authority) && LocalTime.now().isBefore(LocalTime.parse("12:01:00"))))
-            .findAny()
-            .map(authority -> ACCESS_GRANTED)
-            .orElseGet(() -> ACCESS_ABSTAIN);
+
+        /*
+        TODO
+            Zaimplementuj głosowanie tak, że użytkownik z rolą ADMIN ma zawsze ACCESS_GRANTED (1)
+            a użytkownik z rolą USER tylko do południa, inaczej ma ACCESS_ABSTAIN (0)
+         */
+
+        return -1;
     }
 
     @Override

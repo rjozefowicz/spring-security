@@ -14,13 +14,13 @@ import java.util.List;
 public class BookController {
 
     @GetMapping
-    @PreAuthorize("principal")
+    // TODO metoda dostępna dla użytkowników z rolami ADMIN i USER
     public List<String> books() {
         return Arrays.asList("book1", "book2");
     }
 
     @PostMapping
-    @PreAuthorize("principal")
+    // TODO metoda dostępna tylko dla użytkowników z rolą ADMIN
     public void newBook() {
         System.out.println("adding new book");
     }

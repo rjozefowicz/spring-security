@@ -5,16 +5,12 @@
 </head>
 <body>
 <h1>Login page</h1>
-<p th:if="${loginError}" class="error">Wrong user or password</p>
+
 <div th:if="${message != null}">
     <p th:text="${message}"></p>
 </div>
-<form th:action="@{/signin}" method="post">
-    <label for="username">Username</label>:
-    <input type="text" id="username" name="username" autofocus="autofocus" required/> <br />
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password" required/> <br />
-    <input type="submit" value="Sign in" />
+<form method="post">
+
 </form>
 <a href="./signup">No account? Sign up now</a>
 </body>

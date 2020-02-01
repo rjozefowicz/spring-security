@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+// TODO wlacz security na poziomie metod (adnotacje @PreAuthorize, itp)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired

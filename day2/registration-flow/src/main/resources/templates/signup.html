@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login page</title>
+    <title>Sign up page</title>
 </head>
 <body>
 <h1>New account page</h1>
-<form th:action="@{/signup}" method="post" th:object="${form}">
-    <label for="username">Username</label>:
-    <input type="text" id="username" name="email" autofocus="autofocus" required/> <br />
-    <label for="password">Password</label>:
-    <input type="password" id="password" name="password" required/> <br />
-    <input type="submit" value="Sign up" />
+<form method="post">
+
 </form>
-<a href="/signup">No account? Sign up now</a>
 </body>
 </html>

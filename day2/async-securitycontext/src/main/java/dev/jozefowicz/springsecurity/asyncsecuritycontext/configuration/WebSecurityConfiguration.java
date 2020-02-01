@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    // VM property -Dspring.security.strategy=MODE_INHERITABLETHREADLOCAL
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http

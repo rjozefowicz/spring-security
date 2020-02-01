@@ -30,16 +30,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers("/organizations/{organizationId}/projects/{projectId}/**")
-                .access("hasRole('ROOT') or (@securityService.canAccessOrganization(#organizationId) and @securityService.canAccessProject(#projectId))")
-            .antMatchers("/organizations/{organizationId}/**")
-                .access("hasRole('ROOT') or @securityService.canAccessOrganization(#organizationId)")
-            .antMatchers("/organizations/**")
-                .hasRole("ROOT")
+                // TODO #1 zdefiniuj następujące uprawnienia:
+                /*
+                    1. /organizations/{organizationId}/projects/{projectId}/** -> dostęp ma ROOT + wywołaj securityService.canAccessOrganization() + securityService.canAccessProject
+                    2. /organizations/{organizationId}/** -> dostęp ma ROOT + securityService.canAccessOrganization
+                    3. /organizations/** -> dostęp ma tylko ROOT
+                    pamiętaj, że kolejność ma znaczenie
+                 */
             .anyRequest()
-            .authenticated()
-            .and()
-            .httpBasic();
+            .authenticated();
+            // TODO #2 włącz http basic
     }
 
     @Bean

@@ -2,10 +2,6 @@ package dev.jozefowicz.springsecurity.application.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,7 +13,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,19 +26,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .anyRequest()
             .authenticated()
-            .accessDecisionManager(accessDecisionManager())
+            // TODO skonfiguruj własnego AccessDecisionManagera
             .and()
             .httpBasic();
     }
 
-    @Bean
-    public AccessDecisionManager accessDecisionManager() {
-        List<AccessDecisionVoter<? extends Object>> decisionVoters
-            = Arrays.asList(
-//            new RoleVoter(),
-            new MiddayAccessDecisionVoter());
-        return new UnanimousBased(decisionVoters);
-    }
+    // TODO zdefiniuj bean z AccessDecisionManagerem, który ma zdefiniowane dwa AccessDecisionVotery:
+    // * RoleVoter
+    // * MiddayAccessDecisionVoter
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -61,5 +51,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
+    /*
+        TODO przetestuj po zaimplementowaniu, można manipulować datą aby ułatwić sprawdzanie warunków
+        Użyte jest uwierzytelnianie HTTP Basic
+     */
 
 }

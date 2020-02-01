@@ -60,7 +60,7 @@ public class PermissionEvaluatorApplication {
 		projectPermissionRepository.persist(new ProjectPermission(user6, project3, ProjectPermissionType.READ));
 		projectPermissionRepository.persist(new ProjectPermission(user6, project3, ProjectPermissionType.WRITE));
 
-
+		// TODO przetestuj probujac dostawac sie do roznych zasobow wykorzystujac np POSTMANA. Uzywamy tutaj HTTP Basic
 	}
 
 

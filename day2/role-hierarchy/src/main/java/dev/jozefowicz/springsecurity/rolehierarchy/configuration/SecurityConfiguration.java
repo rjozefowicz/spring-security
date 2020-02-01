@@ -8,6 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * TODO
+ * 1. Zdefiniuj nową klasę GlobalMethodSecurityConfig rozszerzającą GlobalMethodSecurityConfiguration
+ * 2. Włącz Security na poziomie metod
+ * 3. Stwórz beana Springowego implementującego RoleHierarchy
+ * 4. Zdefiniuj hierarchię ról:
+ *      - ADMIN może to co EDITOR i READER
+ *      - EDITOR może to co READER
+ *      - READER jest najbardziej granularną rolą
+ * 5. Przeciąż createExpressionHandler() używając nowej implementacji RoleHierarchy
+ * 6. Przetestuj na endpointach wystawianych przez Admin i Document Controller
+ * 7. Wykorzystujemy HTTP BASIC
+ */
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

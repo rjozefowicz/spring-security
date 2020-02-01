@@ -2,8 +2,6 @@ package dev.jozefowicz.springsecurity.permissionevaluator.configuration;
 
 import dev.jozefowicz.springsecurity.permissionevaluator.model.Project;
 import dev.jozefowicz.springsecurity.permissionevaluator.model.ProjectPermissionType;
-import dev.jozefowicz.springsecurity.permissionevaluator.repository.ProjectPermissionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -13,9 +11,6 @@ import java.io.Serializable;
 
 @Component
 public class DomainPermissionEvaluator implements PermissionEvaluator {
-
-    @Autowired
-    private ProjectPermissionRepository projectPermissionRepository;
 
     @Override
     public boolean hasPermission(Authentication authentication, Object domainObject, Object permission) {
@@ -40,9 +35,7 @@ public class DomainPermissionEvaluator implements PermissionEvaluator {
     }
 
     private boolean hasPermissionToProject(String email, long projectId, ProjectPermissionType type) {
-        return projectPermissionRepository
-            .findAll()
-            .stream()
-            .anyMatch(projectPermission -> projectPermission.getProject().getId() == projectId && projectPermission.getUser().getEmail().equals(email) && type == projectPermission.getPermissionType());
+        // TODO zaimplementuj sprawdzenie czy uzytkownik ma dostep do konkretnego projektu. Uprawnienia pobiez z repozytorium uprawnien projektow
+        return false;
     }
 }
