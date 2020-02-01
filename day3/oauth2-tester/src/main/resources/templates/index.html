@@ -7,14 +7,37 @@
 </head>
 <body>
     <span th:id="token" th:value="${token}"></span>
+    <span th:id="state" th:value="${state}"></span>
     <div th:if="${token != null}">
         <h3>Your access token <span th:text="${token}"/></h3>
+    </div>
+    <div>
+        <button onclick="getBooks()">Get books</button>
     </div>
     <script>
         const CLIENT_ID = "client-id1";
         let accessToken = document.getElementById("token").getAttribute("value");
+        const state = document.getElementById("state").getAttribute("value");
         if (!accessToken) {
-            window.location = `http://localhost:8080/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=${CLIENT_ID}&state=1234`;
+            window.location = `http://localhost:8080/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=${CLIENT_ID}&state=${state}`;
+        }
+
+        const getBooks = async () => {
+            if (!accessToken) {
+                alert("No Access Token");
+                return;
+            }
+            const response = await fetch("http://localhost:8082/books", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+            if (response.ok) {
+                alert(JSON.stringify(await response.json()));
+            } else {
+                alert(response.statusText);
+            }
         }
     </script>
 </body>
