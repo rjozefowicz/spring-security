@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,7 +80,26 @@ public class IndexController {
         final OAuth2TokenResponse oAuth2TokenResponse = objectMapper.readValue(response.getBody(), OAuth2TokenResponse.class);
         final ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("token", oAuth2TokenResponse.getAccess_token());
+        modelAndView.addObject("refresh_token", oAuth2TokenResponse.getRefresh_token());
         return modelAndView;
+    }
+
+    @PostMapping("/refresh")
+    @ResponseBody
+    public String refreshToken(@RequestParam("token") String token) throws JsonProcessingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.add("Authorization", httpBasicHeader());
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("grant_type", "refresh_token");
+        map.add("refresh_token", token);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request , String.class);
+
+        final OAuth2TokenResponse oAuth2TokenResponse = objectMapper.readValue(response.getBody(), OAuth2TokenResponse.class);
+        return oAuth2TokenResponse.getAccess_token();
     }
 
     private String httpBasicHeader() {

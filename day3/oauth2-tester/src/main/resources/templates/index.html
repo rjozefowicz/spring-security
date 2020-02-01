@@ -7,16 +7,24 @@
 </head>
 <body>
     <span th:id="token" th:value="${token}"></span>
+    <span th:id="refresh_token" th:value="${refresh_token}"></span>
     <span th:id="state" th:value="${state}"></span>
     <div th:if="${token != null}">
-        <h3>Your access token <span th:text="${token}"/></h3>
+        <h3>Your access token <span id="tokenText" th:text="${token}"/></h3>
+    </div>
+    <div th:if="${refresh_token != null}">
+        <h3>Your refresh token <span th:text="${refresh_token}"/></h3>
     </div>
     <div>
         <button onclick="getBooks()">Get books</button>
     </div>
+    <div>
+        <button onclick="executeRefreshToken()">Refresh token</button>
+    </div>
     <script>
         const CLIENT_ID = "client-id1";
         let accessToken = document.getElementById("token").getAttribute("value");
+        const refreshToken = document.getElementById("refresh_token").getAttribute("value");
         const state = document.getElementById("state").getAttribute("value");
         if (!accessToken) {
             window.location = `http://localhost:8080/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=${CLIENT_ID}&state=${state}`;
@@ -35,6 +43,20 @@
             });
             if (response.ok) {
                 alert(JSON.stringify(await response.json()));
+            } else {
+                alert(response.statusText);
+            }
+        }
+
+        const executeRefreshToken = async () => {
+            const response = await fetch(`http://localhost:5000/refresh?token=${refreshToken}`, {
+                method: "POST"
+            });
+            if (response.ok) {
+                const refreshedAccessToken = await response.text();
+                document.getElementById("tokenText").innerHTML = refreshedAccessToken;
+                accessToken = refreshedAccessToken;
+                alert("Refreshed access token");
             } else {
                 alert(response.statusText);
             }

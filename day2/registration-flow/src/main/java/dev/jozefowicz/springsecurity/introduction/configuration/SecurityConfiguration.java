@@ -50,6 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     formLogin
                             .loginPage("/signin")
                             .loginProcessingUrl("/signin");
+                })
+                .logout(logout -> {
+                    logout.logoutUrl("/doLogout");
                 });
     }
 
