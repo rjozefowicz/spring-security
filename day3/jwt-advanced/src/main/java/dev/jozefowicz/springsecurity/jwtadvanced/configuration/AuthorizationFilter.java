@@ -1,13 +1,8 @@
 package dev.jozefowicz.springsecurity.jwtadvanced.configuration;
 
-import dev.jozefowicz.springsecurity.jwtadvanced.controller.AuthenticationController;
 import dev.jozefowicz.springsecurity.jwtadvanced.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -17,9 +12,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
-import static dev.jozefowicz.springsecurity.jwtadvanced.configuration.SecurityConfiguration.AUTHORIZATION_HEADER;
-import static java.util.Objects.isNull;
 
 public class AuthorizationFilter extends GenericFilterBean {
 
@@ -43,16 +35,9 @@ public class AuthorizationFilter extends GenericFilterBean {
     }
 
     private void attemptAuthorization(ServletRequest servletRequest) {
-        String header = ((HttpServletRequest) servletRequest).getHeader(AUTHORIZATION_HEADER);
-        if (isNull(header) || !header.startsWith(AuthenticationController.TOKEN_PREFIX)) {
-            return;
-        }
-        String token = header.replace(AuthenticationController.TOKEN_PREFIX, "");
-        String email = tokenService.verifyTokenAndGetUserEmail(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        LOG.debug("Authorization succeeded");
+        // TODO pobierz z headera token, jak nie istnieje zrób return;
+        // TODO wywołaj tokenService.verifyTokenAndGetUserEmail(token); jak metoda się powiedzie to zwróci emaila (token jest poprawny)
+        // TODO pobierz z UserDetailsService użytkownika, zbuduj UsernamePasswordAuthenticationToken i ustaw w SecurityCOntextHolderze
     }
 
     private boolean isErrorPage(ServletRequest servletRequest) {

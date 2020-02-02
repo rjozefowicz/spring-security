@@ -14,4 +14,8 @@ public class IntroductionApplication {
 		SpringApplication.run(IntroductionApplication.class, args);
 	}
 
+
+	/*
+	TODO przetestuj aplikację wykorzystując certyfikaty MD oraz MD_ADMIN
+	 */
 }

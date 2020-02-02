@@ -5,9 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -15,6 +13,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,28 +26,28 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+
+        // TODO #1 ustaw URL /login (SecurityConstants.AUTH_LOGIN_URL) jako wymagający uwierzytelnienia
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         final Optional<CredentialsDTO> credentials = parseCredentials(request);
-        UsernamePasswordAuthenticationToken authenticationToken = credentials.isPresent() ?
-                new UsernamePasswordAuthenticationToken(credentials.get().getEmail(), credentials.get().getPassword()) :
-                null;
 
-        return authenticationManager.authenticate(authenticationToken);
+        // TODO #2 zbuduj UsernamePasswordAuthenticationToken na podstawie credentials
+        // TODO #3 wykorzystaj AuthenticationManagera do autentykacji i zwróć wynik
+        return null;
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain filterChain, Authentication authentication) {
-        User user = ((User) authentication.getPrincipal());
 
-        List<String> roles = user.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+        // TODO #4 pobierz użytkownika
+        User user = null;
+
+        // TODO #5 pobierz role
+        List<String> roles = Collections.emptyList();
 
         byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
@@ -58,13 +57,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000)) // 30 minut
                 .claim("rol", roles)
                 .compact();
 
-        response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        // TODO #6 dodaj do response HTTP token. Wykorzystaj SecurityConstants.TOKEN_HEADER oraz SecurityConstants.TOKEN_PREFIX
     }
 
+    /**
+     * Pomocnicza metoda do parsowania body HTTP requesta
+     * @param request
+     * @return
+     */
     private Optional<CredentialsDTO> parseCredentials(HttpServletRequest request) {
         if (request.getMethod().equalsIgnoreCase("post")) {
             try {

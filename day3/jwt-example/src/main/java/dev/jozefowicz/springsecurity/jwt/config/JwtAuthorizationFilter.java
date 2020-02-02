@@ -6,8 +6,6 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -17,40 +15,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class JwtAuthorizationFilter extends GenericFilterBean {
-
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
-        if (token != null && !token.isEmpty() && token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-            try {
-                byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
-
-                Jws<Claims> parsedToken = Jwts.parser()
-                        .setSigningKey(signingKey)
-                        .parseClaimsJws(token.replace("Bearer ", ""));
-
-                String username = parsedToken
-                        .getBody()
-                        .getSubject();
-
-                List<GrantedAuthority> authorities = ((List<?>) parsedToken.getBody()
-                        .get("rol")).stream()
-                        .map(authority -> new SimpleGrantedAuthority("ROLE_" + authority))
-                        .collect(Collectors.toList());
-
-                if (username != null && !username.isEmpty()) {
-                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
-                }
-            } catch (Exception exception) {
-                System.out.println(exception.getLocalizedMessage());
-            }
-        }
-
-        return null;
-    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
@@ -63,7 +31,42 @@ public class JwtAuthorizationFilter extends GenericFilterBean {
             return;
         }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // TODO # ustaw w kontekscie security użytkownika
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     *
+     * @param request
+     * @return TODO zwróć null jak niepoprawny token (brak tokena, nie zaczyna się od Bearer)
+     */
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+
+        // TODO #1 pobierz token z headera HTTP (nazwa headera SecurityConstants.TOKEN_HEADER)
+        String token = "FIXME";
+
+        // TODO #2 zwróć null jak niepoprawny token (brak tokena, nie zaczyna się od Bearer)
+
+            try {
+                byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
+
+                Jws<Claims> parsedToken = Jwts.parser()
+                        .setSigningKey(signingKey)
+                        .parseClaimsJws(token.replace("Bearer ", ""));
+
+                // TODO #3 pobierz z sparsowanego tokena użytkownika (subject)
+                String username = "FIXME";
+
+                // TODO #4 pobierz role użytkownika z sparsowanego tokena (atrybut rol) i zwróć listę GrantedAuthority. Pamiętaj, że to interesują nas role a nie Authority
+                List<GrantedAuthority> authorities = Collections.emptyList();
+
+                if (username != null && !username.isEmpty()) {
+                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
+                }
+            } catch (Exception exception) {
+                System.out.println(exception.getLocalizedMessage());
+            }
+
+        return null;
     }
 }

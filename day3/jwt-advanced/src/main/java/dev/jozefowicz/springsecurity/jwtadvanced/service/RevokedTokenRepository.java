@@ -44,6 +44,7 @@ public class RevokedTokenRepository {
         }
     }
 
+    // TODO zaimplementuj cyklicznego joba, który będzie usuwał przeterminowane tokeny co minutę. Użyj @EnabledScheduling
     public void removeOutdated() {
         long currentTimestamp = System.currentTimeMillis();
         entities().stream().filter(revokedToken -> revokedToken.getExpirationDate() < currentTimestamp).forEach(revokedToken -> entities().remove(revokedToken));

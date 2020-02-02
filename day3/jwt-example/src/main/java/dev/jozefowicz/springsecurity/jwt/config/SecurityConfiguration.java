@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +22,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true) // TODO #3 włącz wsparcie dla adnotacji @PreAuthorize
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -36,15 +35,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilterAfter(new JwtAuthorizationFilter(), JwtAuthenticationFilter.class)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .httpBasic();
+                // TODO #1 dodaj dwa filtry: JwtAuthenticationFilter oraz JwtAuthorizationFilter (ten ma się łańcuszku pojawić zaraz za JwtAuthenticationFilter)
+                // TODO #2 ustaw politykę zarządzania sesjami na stateless
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> {
+
+       // auth.inMemoryAuthentication().withUser("user").password("password").roles("ADMIN");
+
+        auth.userDetailsService(/* custom implementation of functional interface UserDetailsService */ username -> {
             final Optional<User> user = userRepository.findByEmail(username);
             return user.isPresent()
                     ? new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), user.get().getRoles().stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList()))

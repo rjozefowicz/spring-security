@@ -18,15 +18,14 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * TODO Endpoint powinien zwrócić UserDTO na podstawie aktualnego principala. Brakujące dane powinien pobrać z repozytorium
+     * @return
+     */
     @GetMapping
     public Object me() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final String email = (String) authentication.getPrincipal();
-        final Optional<User> authenticatedUser = userRepository.findByEmail(email);
-        if (!authenticatedUser.isPresent()) {
-            throw new IllegalStateException("No such user");
-        }
-        return UserDTO.of(authenticatedUser.get().getEmail(), authenticatedUser.get().getName());
+        return authentication.getPrincipal();
     }
 
 

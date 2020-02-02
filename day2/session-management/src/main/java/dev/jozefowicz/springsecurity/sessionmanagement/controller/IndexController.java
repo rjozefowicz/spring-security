@@ -1,8 +1,5 @@
 package dev.jozefowicz.springsecurity.sessionmanagement.controller;
 
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,53 +8,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
 public class IndexController {
 
-    private final SessionRegistry sessionRegistry;
-
-    public IndexController(SessionRegistry sessionRegistry) {
-        this.sessionRegistry = sessionRegistry;
-    }
-
     @GetMapping
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
-        final List<UserSessionInformationDTO> userSessionInformation = sessionRegistry
-                .getAllPrincipals() // User from Spring Security userdetails package
-                .stream()
-                .map(u -> {
-                    User user = (User) u;
-                    return UserSessionInformationDTO.of(
-                            user.getUsername(),
-                            sessionRegistry.getAllSessions(u,false).stream().map(SessionInformation::getSessionId).collect(Collectors.toList()));
-                })
-                .filter(u -> !u.getSessions().isEmpty())
-                .collect(Collectors.toList());
+        final List<UserSessionInformationDTO> userSessionInformation = Collections.emptyList(); // TODO
+
         modelAndView.addObject("users", userSessionInformation);
         return modelAndView;
     }
 
     @PostMapping("/invalidate")
+    @ResponseBody
     public void invalidateAll() {
-        sessionRegistry.getAllPrincipals().forEach(u -> {
-            sessionRegistry.getAllSessions(u, false).forEach(sessionInformation -> {
-                sessionInformation.expireNow();
-            });
-        });
+        // TODO
     }
 
     @PostMapping("/invalidate/{sessionId}")
     @ResponseBody
     public void invalidateBySessionId(@PathVariable("sessionId") String sessionId) {
-        Optional.ofNullable(sessionRegistry.getSessionInformation(sessionId))
-                .ifPresent(sessionInformation -> sessionInformation.expireNow());
+       // TODO
     }
 
     public static final class UserSessionInformationDTO {

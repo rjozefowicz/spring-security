@@ -5,19 +5,16 @@ import dev.jozefowicz.springsecurity.jwtadvanced.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -53,13 +50,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .cors().and()
             .csrf().disable().authorizeRequests()
-            .antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler())
-            .and()
-            .addFilterBefore(new AuthorizationFilter(tokenService, userDetailsService), UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            // TODO HTTP resource /auth/login metoda POST powinna być publicznie dostępna
+            .anyRequest().authenticated();
+
+            // TODO zdefiniuj exceptionHandling(), dwa handlery powinny używać tego samego accessDeniedResponse()
+            // TODO dodaj AuthorizationFilter przed UsernamePasswordAuthenticationFilter
+                // TODO session creation policy na STATELESS
     }
 
     @Override

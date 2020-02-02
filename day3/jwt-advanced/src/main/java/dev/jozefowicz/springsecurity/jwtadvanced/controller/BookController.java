@@ -14,13 +14,13 @@ import java.util.List;
 public class BookController {
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    // TODO użytkownik z rolą ADMIN albo USER
     public List<String> books() {
         return Arrays.asList("book1", "book2");
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    // TODO tylko ADMIN
     public void newBook() {
         System.out.println("adding new book");
     }

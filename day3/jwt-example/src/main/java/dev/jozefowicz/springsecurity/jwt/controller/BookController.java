@@ -25,7 +25,7 @@ public class BookController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    // TODO tylko użytkownik z rolą ADMIN może dodawać nowe książki
     public void add(@RequestBody Book book) {
         bookRepository.persist(book);
     }

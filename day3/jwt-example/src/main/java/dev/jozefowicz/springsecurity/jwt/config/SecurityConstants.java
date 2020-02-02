@@ -1,9 +1,11 @@
 package dev.jozefowicz.springsecurity.jwt.config;
 
+import java.util.UUID;
+
 public interface  SecurityConstants {
 
     String AUTH_LOGIN_URL = "/login";
-    String JWT_SECRET = "asd7a89s7d8a7sd987a98sd7a8s7d987as98d7a98s7d89a7sd8asdjhabshdbasjhdbjahsbdhjabsdhjabsdh";
+    String JWT_SECRET = UUID.randomUUID().toString() + UUID.randomUUID().toString() + UUID.randomUUID().toString() + UUID.randomUUID().toString(); // TODO this should be maintained and configured e.g. by DevOps
 
     String TOKEN_HEADER = "Authorization";
     String TOKEN_PREFIX = "Bearer ";
