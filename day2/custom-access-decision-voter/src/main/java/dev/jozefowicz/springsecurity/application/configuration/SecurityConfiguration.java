@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,22 +27,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf()
-            .disable()
-            .authorizeRequests()
-            .anyRequest()
-            .authenticated()
-            .accessDecisionManager(accessDecisionManager())
-            .and()
-            .httpBasic();
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .accessDecisionManager(accessDecisionManager())
+                .and()
+                .httpBasic();
     }
 
     @Bean
     public AccessDecisionManager accessDecisionManager() {
         List<AccessDecisionVoter<? extends Object>> decisionVoters
-            = Arrays.asList(
-//            new RoleVoter(),
-            new MiddayAccessDecisionVoter());
+                = Arrays.asList(
+                new WebExpressionVoter(),
+                new RoleVoter(),
+                new MiddayAccessDecisionVoter());
         return new UnanimousBased(decisionVoters);
     }
 

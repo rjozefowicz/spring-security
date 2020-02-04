@@ -9,14 +9,14 @@ import java.util.List;
 @Component
 public class ProjectPermissionRepository {
 
-    private List<ProjectPermission> organizations = new ArrayList<>();
+    private List<ProjectPermission> projectPermissions = new ArrayList<>();
 
     public void persist(ProjectPermission entity) {
-        organizations.add(entity);
+        projectPermissions.add(entity);
     }
 
     public List<ProjectPermission> findAll() {
-        return organizations;
+        return new ArrayList<>(projectPermissions);
     }
 
 }
