@@ -36,8 +36,8 @@ public class AuthorizationFilter extends GenericFilterBean {
 
     private void attemptAuthorization(ServletRequest servletRequest) {
         // TODO pobierz z headera token, jak nie istnieje zrób return;
-        // TODO wywołaj tokenService.verifyTokenAndGetUserEmail(token); jak metoda się powiedzie to zwróci emaila (token jest poprawny)
-        // TODO pobierz z UserDetailsService użytkownika, zbuduj UsernamePasswordAuthenticationToken i ustaw w SecurityCOntextHolderze
+        // TODO wywołaj tokenService.verifyTokenAndGetUserDetails(token); jak metoda się powiedzie to zwróci UserDetails (token jest poprawny)
+        // TODO zbuduj UsernamePasswordAuthenticationToken i ustaw w SecurityCOntextHolderze
     }
 
     private boolean isErrorPage(ServletRequest servletRequest) {
