@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.acls.AclPermissionCacheOptimizer;
@@ -24,7 +26,14 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableAutoConfiguration
+@EnableScheduling
 public class AclConfiguration {
+
+    @Scheduled(fixedRate = 60 * 1000)
+    public void clearCache() {
+        System.out.println("Clearing ACL cache for demo purposes - updating database entries");
+        aclCache().clearCache();
+    }
 
     @Autowired
     private DataSource dataSource;

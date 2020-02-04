@@ -30,4 +30,5 @@ INSERT INTO acl_entry
   (8, 3, 1, 5, 1, 1, 1, 1), --joanna READ project3
   (9, 3, 1, 6, 1, 1, 1, 1), --katarzyna READ project3
   (10, 3, 1, 6, 2, 1, 1, 1), --katarzyna WRITE project3
-  (11, 3, 1, 1, 1, 1, 1, 1); --jan READ project2
+  (11, 3, 1, 1, 1, 1, 1, 1), --jan READ project3
+  (12, 2, 1, 6, 1, 1, 1, 1); --katarzyna READ project2
