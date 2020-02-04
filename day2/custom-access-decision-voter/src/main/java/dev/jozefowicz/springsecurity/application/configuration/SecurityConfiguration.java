@@ -32,6 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     // TODO zdefiniuj bean z AccessDecisionManagerem, który ma zdefiniowane dwa AccessDecisionVotery:
+
+    // * WebExpressionVoter - używamy .anyRequest().authenticated() co w praktyce buduje wyrażenie access("isAuthenticated()")
     // * RoleVoter
     // * MiddayAccessDecisionVoter
 
