@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
 import static dev.jozefowicz.springsecurity.jwtadvanced.configuration.SecurityConfiguration.AUTHORIZATION_HEADER;
 import static java.util.Objects.nonNull;
@@ -69,7 +67,7 @@ public class AuthenticationController {
     @PostMapping("/auth/token")
     public ResponseEntity<Void> refresh(@RequestHeader(AUTHORIZATION_HEADER) String token, HttpServletResponse response) {
         tokenService.revokeToken(token.replace(TOKEN_PREFIX, ""));
-        User authenticatedUser = webSecurityService.getAuthenticatedUser();
+        UserDetails authenticatedUser = webSecurityService.getAuthenticatedUser();
         generateTokenAndAddToHeader(response, authenticatedUser); // username == email
         return ResponseEntity.ok().build();
     }

@@ -1,15 +1,21 @@
 package dev.jozefowicz.springsecurity.jwtadvanced.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,7 +43,7 @@ public class TokenService {
             .compact();
     }
 
-    public String verifyTokenAndGetUserEmail(String token) {
+    public UserDetails verifyTokenAndGetUserDetails(String token) {
         if (isNull(token)) {
             throw new InvalidTokenException("Token must be present");
         }
@@ -45,7 +51,9 @@ public class TokenService {
             throw new InvalidTokenException("Token revoked");
         }
         try {
-            return Jwts.parser().setSigningKey(tokenKey.getBytes()).parseClaimsJws(token).getBody().getSubject();
+            final Jws<Claims> claims = Jwts.parser().setSigningKey(tokenKey.getBytes()).parseClaimsJws(token);
+            List<String> roles = claims.getBody().get("rol", List.class);
+            return new User(claims.getBody().getSubject(), "", roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         } catch (JwtException exception) {
             throw new InvalidTokenException("Invalid token", exception);
         }

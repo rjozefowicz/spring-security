@@ -48,8 +48,7 @@ public class AuthorizationFilter extends GenericFilterBean {
             return;
         }
         String token = header.replace(AuthenticationController.TOKEN_PREFIX, "");
-        String email = tokenService.verifyTokenAndGetUserEmail(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = tokenService.verifyTokenAndGetUserDetails(token);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         LOG.debug("Authorization succeeded");

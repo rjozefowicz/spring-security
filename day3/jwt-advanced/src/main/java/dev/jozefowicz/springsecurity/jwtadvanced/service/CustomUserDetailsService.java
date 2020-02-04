@@ -1,5 +1,6 @@
 package dev.jozefowicz.springsecurity.jwtadvanced.service;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 
 @Service
+@Primary
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        // TODO
         if (username.equals("jan@example.com")) {
             return new User("jan@example.com", "password", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER")));
         } else if (username.equals("stefan@example.com")) {
