@@ -1,10 +1,8 @@
-package workshop.sb.security.basics;
+package dev.jozefowicz.springsecurity;
 
-import nz.net.ultraq.thymeleaf.LayoutDialect;
+import dev.jozefowicz.springsecurity.config.SecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import workshop.sb.security.basics.config.AppSecurityConfig;
 
 /**
  * Przykład pokazujący jak napisać migrację użytkowników na nowe hasła
@@ -21,17 +19,10 @@ import workshop.sb.security.basics.config.AppSecurityConfig;
  */
 
 @SpringBootApplication
-public class SecurityBasicsApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(new Class[]{SecurityBasicsApplication.class, AppSecurityConfig.class}, args);
+		SpringApplication.run(new Class[]{Application.class, SecurityConfiguration.class}, args);
 	}
 
-	/*
-		https://igorski.co/java/spring-boot/layout-dialect-spring-boot-2/
-	 */
-	@Bean
-	public LayoutDialect layoutDialect() {
-		return new LayoutDialect();
-	}
 }

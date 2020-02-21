@@ -1,13 +1,13 @@
-package workshop.sb.security.basics.service;
+package dev.jozefowicz.springsecurity.service;
 
+import dev.jozefowicz.springsecurity.model.User;
+import dev.jozefowicz.springsecurity.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import workshop.sb.security.basics.model.User;
-import workshop.sb.security.basics.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
-package workshop.sb.security.basics.repository;
+package dev.jozefowicz.springsecurity.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import workshop.sb.security.basics.model.User;
+import dev.jozefowicz.springsecurity.model.User;
 
 import java.util.Optional;
 

@@ -1,5 +1,8 @@
-package workshop.sb.security.basics.config;
+package dev.jozefowicz.springsecurity.config;
 
+import dev.jozefowicz.springsecurity.model.UserPasswordMigration;
+import dev.jozefowicz.springsecurity.repository.UserPasswordMigrationRepository;
+import dev.jozefowicz.springsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -17,11 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import workshop.sb.security.basics.model.User;
-import workshop.sb.security.basics.model.UserPasswordMigration;
-import workshop.sb.security.basics.repository.UserPasswordMigrationRepository;
-import workshop.sb.security.basics.repository.UserRepository;
-import workshop.sb.security.basics.service.CustomUserDetailsService;
+import dev.jozefowicz.springsecurity.model.User;
+import dev.jozefowicz.springsecurity.service.CustomUserDetailsService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableWebSecurity
-public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${migrate.user.password}")
     private boolean migrateUserPassword;
@@ -42,7 +42,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserPasswordMigrationRepository userPasswordMigrationRepository;
 
-    public AppSecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
