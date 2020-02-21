@@ -36,8 +36,8 @@ public class JwtAuthorizationFilter extends GenericFilterBean {
                         .getBody()
                         .getSubject();
 
-                List<GrantedAuthority> authorities = ((List<?>) parsedToken.getBody()
-                        .get("rol")).stream()
+                List<GrantedAuthority> authorities = (List)parsedToken.getBody()
+                        .get("rol", List.class).stream()
                         .map(authority -> new SimpleGrantedAuthority("ROLE_" + authority))
                         .collect(Collectors.toList());
 

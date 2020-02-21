@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,9 +35,6 @@ public class AuthenticationController {
     @Autowired
     private WebSecurityService webSecurityService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @PostMapping("/auth/login")
     public ResponseEntity<Void> login(@RequestBody @Validated LoginCredentialsDTO loginCredentials, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(
@@ -47,10 +43,10 @@ public class AuthenticationController {
                 loginCredentials.getPassword())
         );
 
-        final UserDetails userDetails = userDetailsService
-            .loadUserByUsername(loginCredentials.getEmail());
-
         if (nonNull(authentication) && authentication.isAuthenticated()) {
+
+            final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
             generateTokenAndAddToHeader(response, userDetails);
             return ResponseEntity.ok().build();
 
