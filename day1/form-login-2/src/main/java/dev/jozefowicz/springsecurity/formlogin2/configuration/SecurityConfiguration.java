@@ -61,6 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             .key("some-key")
                             .rememberMeCookieName("rememberMe")
                             .rememberMeParameter("rememberMe");
+                })
+                .sessionManagement(sessionManagement -> {
+                    sessionManagement.maximumSessions(1);
                 });
     }
 
