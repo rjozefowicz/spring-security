@@ -25,3 +25,7 @@
     
 ### Roles
 1. Wyświetl formularz dodawania nowych książek wyłącznie dla użytkowników z rolą ADMIN. Wykorzystaj do tego przestrzeń "xmlns:sec"
+
+### Session management
+1. Ustaw maksymalnie jedną aktywną sesję dla użytkownika - przetestuj logując się ponownie w trybie incognito
+2. Poeksperymentuj z ustawieniami sessionFixation()
