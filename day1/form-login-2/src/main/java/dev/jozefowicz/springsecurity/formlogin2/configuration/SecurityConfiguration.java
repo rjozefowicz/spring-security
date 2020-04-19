@@ -58,6 +58,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .passwordParameter("pass")
                     .usernameParameter("user")
                     .loginProcessingUrl("/doLogin");
-       }).logout();
+       })
+               .logout(
+                       logout -> logout.logoutUrl("/doLogout")
+               )
+               .rememberMe(rememberMe -> {
+                   rememberMe
+                           .rememberMeParameter("rememberMe")
+                           .rememberMeCookieName("rememberMe");
+               });
     }
 }

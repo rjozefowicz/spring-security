@@ -10,7 +10,7 @@
 <div style="display: flex; align-items: center; flex-direction: column; padding-top: 10px; width: 600px; margin: 0 auto">
     <div>Welcome <span sec:authentication="name">username</span></div>
     <br/>
-    <form th:action="@{/logout}" th:method="post">
+    <form th:action="@{/doLogout}" th:method="post">
         <input th:type="submit" th:value="Logout"/>
     </form>
     <h1>Library books</h1>
