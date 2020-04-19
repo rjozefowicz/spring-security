@@ -10,7 +10,7 @@
 <body>
 <div style="display: flex; align-items: center; flex-direction: column;">
     <h1>Login page</h1>
-    <form th:action="@{/login}" method="post" style="width: 200px">
+    <form th:action="@{/doLogin}" method="post" style="width: 200px">
         <div th:if="${param.logout}" class="alert alert-info">
             You have been logged out
         </div>
@@ -19,11 +19,11 @@
         </div>
         <div class="form-group">
             <label for="username">Username</label>:
-            <input class="form-control" type="text" id="username" name="username" autofocus="autofocus"/> <br/>
+            <input class="form-control" type="text" id="username" name="user" autofocus="autofocus"/> <br/>
         </div>
         <div class="form-group">
             <label for="password">Password</label>:
-            <input class="form-control" type="password" id="password" name="password"/> <br/>
+            <input class="form-control" type="password" id="password" name="pass"/> <br/>
         </div>
 <!--        <div class="form-check">-->
 <!--            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">-->

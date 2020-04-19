@@ -31,7 +31,7 @@ public class UserRepository {
         public User(String username, String password, List<String> roles) {
             this.username = username;
             this.password = password;
-            this.roles = List.copyOf(roles);
+            this.roles = roles;
         }
 
         public String getUsername() {

@@ -17,7 +17,7 @@ public class BookRepository {
     }
 
     public List<Book> findAll() {
-        return List.copyOf(books);
+        return books;
     }
 
     public void persist(Book book) {
