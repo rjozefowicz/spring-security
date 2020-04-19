@@ -33,7 +33,7 @@
         </tr>
         </tbody>
     </table>
-    <div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
         <h3>Add new book</h3>
         <form action="#" th:action="@{/newBook}" method="post" style="width: 200px" th:object="${book}">
             <div class="form-group">
