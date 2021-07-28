@@ -2,6 +2,7 @@ package dev.jozefowicz.springsecurity.formlogin2.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,7 +18,7 @@ public class BookRepository {
     }
 
     public List<Book> findAll() {
-        return List.copyOf(books);
+        return Collections.unmodifiableList(books);
     }
 
     public void persist(Book book) {

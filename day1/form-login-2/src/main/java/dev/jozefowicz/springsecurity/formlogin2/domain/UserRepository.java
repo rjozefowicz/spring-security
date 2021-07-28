@@ -2,6 +2,7 @@ package dev.jozefowicz.springsecurity.formlogin2.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,7 +32,7 @@ public class UserRepository {
         public User(String username, String password, List<String> roles) {
             this.username = username;
             this.password = password;
-            this.roles = List.copyOf(roles);
+            this.roles = Collections.unmodifiableList(roles);
         }
 
         public String getUsername() {
