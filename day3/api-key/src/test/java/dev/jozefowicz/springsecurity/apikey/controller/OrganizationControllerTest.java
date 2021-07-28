@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 
-import java.util.Map;
+import java.util.Collections;
 
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
@@ -45,7 +45,7 @@ public class OrganizationControllerTest {
         given()
                 .body(request)
                 .contentType("application/json")
-                .headers(Map.of("Authorization", "0000"))
+                .headers(Collections.singletonMap("Authorization", "0000"))
                 .when()
                 .post("/organizations")
                 .then()
@@ -53,7 +53,7 @@ public class OrganizationControllerTest {
 
         // query organizations
         given()
-                .headers(Map.of("Authorization", "0000"))
+                .headers(Collections.singletonMap("Authorization", "0000"))
                 .when()
                 .get("/organizations")
                 .then()

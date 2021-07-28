@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class OrganizationController {
 
     @GetMapping
     public ResponseEntity<Map<String, List<Organization>>> listAll() {
-        return ResponseEntity.ok(Map.of("organizations", organizations));
+        return ResponseEntity.ok(Collections.singletonMap("organizations", organizations));
     }
 
     @PostMapping
