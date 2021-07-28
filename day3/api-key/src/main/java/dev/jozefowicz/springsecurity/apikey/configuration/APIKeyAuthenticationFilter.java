@@ -28,7 +28,7 @@ public class APIKeyAuthenticationFilter implements Filter {
         if (servletRequest instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             final String apiKey = httpServletRequest.getHeader("Authorization");
-            if (nonNull(apiKey) && !apiKey.isBlank()) {
+            if (nonNull(apiKey) && !apiKey.isEmpty()) {
                 apiKeyRepository.findByKey(apiKey).ifPresent(persistedApiKey -> {
                     final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(persistedApiKey.getUsername(), null, Collections.emptyList());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
