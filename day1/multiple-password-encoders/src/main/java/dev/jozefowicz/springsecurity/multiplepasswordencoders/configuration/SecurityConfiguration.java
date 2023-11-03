@@ -1,48 +1,58 @@
 package dev.jozefowicz.springsecurity.multiplepasswordencoders.configuration;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+public class SecurityConfiguration {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(authorizeRequests -> {
+                .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
                             .anyRequest()
                             .authenticated();
                 })
-                .formLogin();
+                .formLogin(Customizer.withDefaults());
+        return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user1")
-                .password("{pbkdf2}" + pbkdf2PasswordEncoder().encode("password"))
-                .authorities(Collections.emptyList())
-                .and()
-                .withUser("user2")
-                .password("{sha256}" + standardPasswordEncoder().encode("password"))
-                .authorities(Collections.emptyList())
-                .and()
-                .withUser("user3")
-                .password("{bcrypt}" + bCryptPasswordEncoder().encode("password"))
-                .authorities(Collections.emptyList());
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new InMemoryUserDetailsManager(
+                User.builder()
+                        .username("user1")
+                        .password("{pbkdf2}" + pbkdf2PasswordEncoder().encode("password"))
+                        .roles()
+                        .build(),
+                User.builder()
+                        .username("user2")
+                        .password("{sha256}" + standardPasswordEncoder().encode("password"))
+                        .roles()
+                        .build(),
+                User.builder()
+                        .username("user3")
+                        .password("{bcrypt}" + bCryptPasswordEncoder().encode("password"))
+                        .roles()
+                        .build()
+        );
     }
 
     @Bean
@@ -57,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public PasswordEncoder pbkdf2PasswordEncoder() {
-        return new Pbkdf2PasswordEncoder();
+        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
 
     public PasswordEncoder standardPasswordEncoder() {
