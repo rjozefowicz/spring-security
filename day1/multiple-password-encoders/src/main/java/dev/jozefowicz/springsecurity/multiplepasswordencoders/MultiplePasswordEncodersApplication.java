@@ -14,8 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 	 bcrypt powinien być domyślnym PasswordEncoderem
  * - Stwórz trzech użytkowników (np in memory) i każdemu przypisz hasło zenkodowane jednym z PasswordEncoderów. Hasła poprzedź prefixem w {..}
  *   np {sha256}xdsesffs
+ *   Wykorzystaj np UserDetailsService i implementację InMemoryUserDetailsManager do zdefiniowania userów
  * - Spróbuj się zalogować kolejnymi użytkownikami. Podejrzyj na debugu DelegatingPasswordEncoder
  */
+
 @SpringBootApplication
 public class MultiplePasswordEncodersApplication {
 
