@@ -1,9 +1,10 @@
 package dev.jozefowicz.springsecurity.apikey.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 
 /**
@@ -16,19 +17,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * 6. Wykorzystaj gotowe testy, przetestuj w Postmanie
  */
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+public class SecurityConfiguration {
 
     @Autowired
     private APIKeyRepository apiKeyRepository;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeRequests(authorizeRequest -> {
-                    authorizeRequest
-                            .antMatchers("/**")
+                .authorizeHttpRequests(authz -> {
+                    authz
+                            .requestMatchers("/**")
                             .authenticated();
                 });
+        return http.build();
     }
 }
