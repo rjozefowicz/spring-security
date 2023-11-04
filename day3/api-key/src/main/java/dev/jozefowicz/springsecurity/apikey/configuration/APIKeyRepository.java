@@ -11,10 +11,14 @@ public class APIKeyRepository {
 
     private final List<APIKey> keys = new CopyOnWriteArrayList<>();
 
+    public enum RoleEnum {
+        ADMIN, USER;
+    }
+
     public APIKeyRepository() {
-        keys.add(new APIKey("0000", "admin1"));
-        keys.add(new APIKey("1111", "admin2"));
-        keys.add(new APIKey("2222", "admin3"));
+        keys.add(new APIKey("0000", "admin1", RoleEnum.ADMIN));
+        keys.add(new APIKey("1111", "admin2", RoleEnum.USER));
+        keys.add(new APIKey("2222", "admin3", RoleEnum.USER));
     }
 
     public Optional<APIKey> findByKey(final String key) {
@@ -25,9 +29,12 @@ public class APIKeyRepository {
         private final String key;
         private final String username;
 
-        public APIKey(String key, String username) {
+        private final RoleEnum role;
+
+        public APIKey(String key, String username, RoleEnum role) {
             this.key = key;
             this.username = username;
+            this.role = role;
         }
 
         public String getKey() {
@@ -36,6 +43,10 @@ public class APIKeyRepository {
 
         public String getUsername() {
             return username;
+        }
+
+        public RoleEnum getRole() {
+            return role;
         }
     }
 
