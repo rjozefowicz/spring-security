@@ -16,12 +16,10 @@
     * Customizacja ustawień remember me. Zmień klucz na "some-key", nazwę ciasteczka na "rememberMe" i nazwę parametru z formularza logowania na "rememberMe". Nanieś odpowiednie zmiany w login.html
 
 ### UserDetailsService
-1. Zadanie #1
-    * zdefiniuj użytkownika in memory nadpisując metodę configure(AuthenticationManagerBuilder auth). Usuń propertiesy z application.properties
-2. Zadanie #2
+. Zadanie #1
     * Stwórz własną implementację UserDetailsService wykorzystując gotowe UserRepository - pamiętaj o kontrakcie interfejsu. Jako implementację UserDetails wykorzystaj https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/User.html, jako GrantedAuthority -> SimpleGrantedAuthority
     * Stwórz beana PasswordEncoder NoOpPasswordEncoder
-    * Skonfiguruj własną implementację UserDetailsService w metodzie configure(AuthenticationManagerBuilder auth)
+    * Skonfiguruj własną implementację UserDetailsService SecurityFilterChain
     
 ### Roles
 1. Wyświetl formularz dodawania nowych książek wyłącznie dla użytkowników z rolą ADMIN. Wykorzystaj do tego przestrzeń "xmlns:sec"
